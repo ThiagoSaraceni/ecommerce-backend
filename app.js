@@ -7,14 +7,17 @@ const {
   Pedido,
   PedidoProduto,
 } = require("./models/index");
+const ecommerceRoutes = require("./routes/ecommerceRoutes");
 const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => console.log(`server listen on port ${PORT}`));
+app.use("/api/", ecommerceRoutes);
 
 sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => console.log("Database & tables created"))
   .catch((err) => {
     console.error("Error syncing database:", err);
