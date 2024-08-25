@@ -24,8 +24,15 @@ const produtoController = {
   getProducts: async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
-    const filterType = req.query.filterType;
     const offset = (page - 1) * limit;
+
+    const filterType = req.query.filterType;
+    const orderNews = req.query.orderBy === "news";
+    const orderPriceExpensive = req.query.orderBy === "expensive";
+    const orderPriceCheap = req.query.orderBy === "cheap";
+
+    const field = "createdAt";
+    const price = "preco";
 
     try {
       let sqlQuery, sqlCount;
@@ -44,6 +51,40 @@ const produtoController = {
           FROM Produtos 
           WHERE categoria = '${filterType}';
         `;
+      } else if (orderNews) {
+        sqlQuery = `
+          select * 
+          from Produtos 
+          order by ${field} DESC 
+        `;
+
+        sqlCount = `
+          select COUNT(*) as count 
+          from Produtos 
+          order by ${field} DESC 
+        `;
+      } else if (orderPriceExpensive) {
+        sqlQuery = `
+          select *
+          from Produtos 
+          order by ${price} desc;
+        `;
+        sqlCount = `
+          select COUNT(*) as count 
+          from Produtos 
+          order by ${price} DESC 
+        `;
+      } else if (orderPriceCheap) {
+        sqlQuery = `
+        select *
+        from Produtos 
+        order by ${price} asc;
+      `;
+        sqlCount = `
+        select COUNT(*) as count 
+        from Produtos 
+        order by ${price} asc 
+      `;
       } else {
         sqlQuery = `
           SELECT *
