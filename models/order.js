@@ -8,7 +8,7 @@ const Pedido = sequelize.define("Pedido", {
     autoIncrement: true,
     allowNull: false,
   },
-  clientId: {
+  clienteId: {
     type: DataTypes.INTEGER,
     references: {
       model: "Clientes",
