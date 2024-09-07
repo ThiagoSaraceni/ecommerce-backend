@@ -41,6 +41,15 @@ const UsuarioController = {
       res.status(500).json({ error: "Erro no login" });
     }
   },
+
+  listUser: async (req, res) => {
+    try {
+      const users = await Usuario.findAll();
+      res.status(200).json({ users });
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao realizar a busca" });
+    }
+  },
 };
 
 module.exports = UsuarioController;
