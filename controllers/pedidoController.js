@@ -44,7 +44,7 @@ const pedidoController = {
       return res
         .status(200)
         .json({ message: "Produto adicionado ao carrinho.", pedidoProduto });
-    } catch {
+    } catch (error) {
       console.error("Erro ao adicionar ao carrinho:", error);
       return res
         .status(500)
