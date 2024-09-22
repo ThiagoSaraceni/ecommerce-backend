@@ -16,6 +16,14 @@ const Pedido = sequelize.define("Pedido", {
     },
     allowNull: false,
   },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: "aberto",
+  },
+  data_pedido: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
 });
 
 module.exports = Pedido;
