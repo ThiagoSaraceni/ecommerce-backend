@@ -1,5 +1,7 @@
 const { sequelize } = require("../models");
 const Produto = require("../models/product");
+const Pedido = require("../models/order");
+const PedidoProduto = require("../models/orderProduct");
 
 const produtoController = {
   createProduct: async (req, res) => {
@@ -23,7 +25,7 @@ const produtoController = {
 
   getProducts: async (req, res) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 20;
+    const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
 
     const filterType = req.query.filterType;
@@ -56,6 +58,8 @@ const produtoController = {
           select * 
           from Produtos 
           order by ${field} DESC 
+           LIMIT ${limit}
+          OFFSET ${offset};
         `;
 
         sqlCount = `
@@ -67,7 +71,9 @@ const produtoController = {
         sqlQuery = `
           select *
           from Produtos 
-          order by ${price} desc;
+          order by ${price} desc
+          LIMIT ${limit}
+          OFFSET ${offset};
         `;
         sqlCount = `
           select COUNT(*) as count 
@@ -78,7 +84,9 @@ const produtoController = {
         sqlQuery = `
         select *
         from Produtos 
-        order by ${price} asc;
+        order by ${price} asc
+        LIMIT ${limit}
+        OFFSET ${offset};
       `;
         sqlCount = `
         select COUNT(*) as count 
@@ -90,7 +98,7 @@ const produtoController = {
           SELECT *
           FROM Produtos 
           LIMIT ${limit}
-          OFFSET ${offset};
+          OFFSET ${offset}
         `;
 
         sqlCount = `
