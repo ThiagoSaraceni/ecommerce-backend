@@ -88,9 +88,17 @@ const pedidoController = {
   },
 
   getProductsOnCart: async (req, res) => {
+    const clienteId = req.params.clienteId;
+
     try {
-      const { pedidoId } = req.params;
-      console.log({ pedidoId });
+      const pedido = await Pedido.findOne({
+        where: {
+          clienteId,
+          status: "aberto",
+        },
+      });
+
+      const pedidoId = pedido.id;
 
       const sqlQuery = `SELECT
                       pp.id,

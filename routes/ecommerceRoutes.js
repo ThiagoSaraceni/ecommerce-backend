@@ -17,7 +17,7 @@ router.get("/users", UsuarioController.listUser);
 
 router.get("/quantity/:clienteId", PedidoController.findQuantityProducts);
 router.post("/add", PedidoController.addOnCart);
-router.get("/incart/:pedidoId", PedidoController.getProductsOnCart);
+router.get("/incart/:clienteId", PedidoController.getProductsOnCart);
 router.delete("/delete", PedidoController.deleteProductOnCart);
 
 module.exports = router;
