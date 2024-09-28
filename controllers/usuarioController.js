@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const Usuario = require("../models/costumer");
 const bcrypt = require("bcrypt");
 
@@ -14,8 +15,12 @@ const UsuarioController = {
       });
       res.status(201).json(novoUsuario);
     } catch (error) {
-      console.error("Erro ao criar cliente: ", error);
-      res.status(500).json({ error: "Erro ao criar cliente" });
+      if (error.name === "SequelizeUniqueConstraintError") {
+        return res.status(409).json({ message: "E-mail já cadastrado" });
+      }
+
+      console.error(error);
+      return res.status(500).json({ error: "Erro ao criar cliente" });
     }
   },
 
@@ -39,6 +44,15 @@ const UsuarioController = {
     } catch (error) {
       console.error("erro no login", error);
       res.status(500).json({ error: "Erro no login" });
+    }
+  },
+
+  listUser: async (req, res) => {
+    try {
+      const users = await Usuario.findAll();
+      res.status(200).json({ users });
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao realizar a busca" });
     }
   },
 };

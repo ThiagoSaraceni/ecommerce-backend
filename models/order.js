@@ -8,13 +8,21 @@ const Pedido = sequelize.define("Pedido", {
     autoIncrement: true,
     allowNull: false,
   },
-  clientId: {
+  clienteId: {
     type: DataTypes.INTEGER,
     references: {
       model: "Clientes",
       key: "id",
     },
     allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: "aberto",
+  },
+  data_pedido: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
   },
 });
 
