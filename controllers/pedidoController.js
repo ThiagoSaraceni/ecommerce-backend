@@ -37,7 +37,7 @@ const pedidoController = {
         await PedidoProduto.create({
           pedidoId: pedido.id,
           produtoId: produtoId,
-          quantidade: quantidade, // Quantidade do produto
+          quantidade,
         });
       }
 
