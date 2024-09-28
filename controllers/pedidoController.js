@@ -20,7 +20,6 @@ const pedidoController = {
         });
       }
 
-      // Verificar se o produto já está no pedido
       let pedidoProduto = await PedidoProduto.findOne({
         where: {
           pedidoId: pedido.id,
@@ -29,11 +28,9 @@ const pedidoController = {
       });
 
       if (pedidoProduto) {
-        // Se o produto já estiver no pedido, atualiza a quantidade
         pedidoProduto.quantidade = quantidade;
         await pedidoProduto.save();
       } else {
-        // Se não estiver, cria um novo registro de PedidoProduto
         await PedidoProduto.create({
           pedidoId: pedido.id,
           produtoId: produtoId,
@@ -63,14 +60,12 @@ const pedidoController = {
         },
       });
 
-      // Verifica se há um pedido em aberto
       if (!pedido) {
         return res
           .status(404)
           .json({ message: "Nenhum pedido em aberto encontrado", count: 0 });
       }
 
-      // Contar a quantidade de produtos no pedido encontrado
       const { count } = await PedidoProduto.findAndCountAll({
         where: {
           pedidoId: pedido.id,
